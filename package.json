@@ -1,0 +1,36 @@
+{
+  "name": "vitc2020",
+  "version": "1.0.0",
+  "description": "After 8 years of procrastination, hopefully it will have been worth the weight.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Phanty133/VITC2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Phanty133/VITC2020/issues"
+  },
+  "homepage": "https://github.com/Phanty133/VITC2020#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-eslint": "^10.1.0",
+    "css-loader": "^5.0.0",
+    "eslint": "^7.12.0",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "d3.js": "0.0.2-security",
+    "leaflet": "^1.7.1"
+  }
+}
