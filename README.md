@@ -9,11 +9,11 @@ Download packages: `npm i`
 
 ## Usage
 
-Build and host server on `localhost:8080` with `npm start`
+Build and host server on `localhost:8080` with `npm start`. This will run `webpack serve`. It enables page auto-reload and auto-recompiles code on change.
 
 ### VS Code
 * To build and host run the `npm: start` task with `Ctrl + Shift + B`
-* Launch chrome with `F5`
+* Launch chrome debugging with `F5`
 
 ## Structure
 
