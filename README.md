@@ -7,10 +7,10 @@ Download packages: `npm i`
 
 ## Usage
 
-Build and host server (url: localhost:8080) with `npm start`
+Build and host server on `localhost:8080` with `npm start`
 
 ### VS Code
-* To build and host run the "npm: start" task with `Ctrl + Shift + B`
+* To build and host run the `npm: start` task with `Ctrl + Shift + B`
 * Launch chrome with `F5`
 
 ## Structure
@@ -48,8 +48,7 @@ Build and host server (url: localhost:8080) with `npm start`
 ### HTML
 * Use XHTML 
   * Tags that don't have a closing tag like `<br>` are closed with a slash e.g. `<br/>` or `<input ... />`
-  * Attributes that don't need an explicit value like `disabled` should have its value set as the attribute name e.g. `<element disabled="disabled">`
-* Import JS scripts at the end of `<body>`
+  * Attributes that don't need an explicit value like `disabled` should have its value set as the attribute name e.g. `<element disabled="disabled">``
 
 ### CSS
 * use your best judgement lol
