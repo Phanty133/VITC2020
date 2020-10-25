@@ -23,7 +23,7 @@ Build and host server (url: localhost:8080) with `npm start`
     * **style.css** - still self-explanatory
 
   * js
-    * **index.js** - Main code for binding modules and including external files like stylesheets
+    * **index.js** - Main code for initialization and including external files like stylesheets
     * **map.js** - Code for configuring and rendering the map
     * **sim.js** - Code for the simulation itself (Mainly point calculations)
     * **ui.js** - User interface code for the simulation

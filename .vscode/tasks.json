@@ -11,5 +11,15 @@
 			"label": "npm: start",
 			"detail": "webpack"
 		},
+		{
+			"type": "npm",
+			"script": "build",
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build",
+			"label": "npm: build",
+			"detail": "webpack"
+		}
 	]
 }

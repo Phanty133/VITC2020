@@ -2,8 +2,20 @@
 import "./css/style.css";
 import "leaflet/dist/leaflet.css";
 
-// Import js libs
-import L from "leaflet";
+// Import JS modules
+import {Map} from "./js/map.js";
 
-const mymap = L.map("map").setView([51.505, -0.09], 13);
-console.log("test");
+function init(){
+	const kalnciemaCoord = [56.792, 23.577];
+	const zoom = 10;
+
+	new Map("map", kalnciemaCoord, zoom);
+}
+
+// Run init only when the page has fully loaded
+if(document.readyState === "complete"){ 
+	init();
+}
+else{
+	window.onload = init;
+}
