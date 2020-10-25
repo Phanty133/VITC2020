@@ -1,17 +1,20 @@
 # VITC2020
 After 8 years of procrastination, hopefully it will have been worth the weight.
 
+Outline: [Google Docs](https://docs.google.com/document/d/1dEdyyxbawSNikHp6Vdax3v1C00PjcRTb6qxdRN5s1QM/edit?usp=sharing)
+
 ## Installation
 
 Download packages: `npm i`
 
 ## Usage
 
-Build and host server (url: localhost:8080) with `npm start`
+Compile and host live server on `localhost:8080` with `npm start`. This will run `webpack serve`. It enables page auto-reload and auto-recompiles code on change.
 
 ### VS Code
-* To build and host run the "npm: start" task with `Ctrl + Shift + B`
-* Launch chrome with `F5`
+* To compile and host run the `npm: start` task
+* To build run `npm: build`
+* Launch chrome debugging with `F5`
 
 ## Structure
 
@@ -48,8 +51,7 @@ Build and host server (url: localhost:8080) with `npm start`
 ### HTML
 * Use XHTML 
   * Tags that don't have a closing tag like `<br>` are closed with a slash e.g. `<br/>` or `<input ... />`
-  * Attributes that don't need an explicit value like `disabled` should have its value set as the attribute name e.g. `<element disabled="disabled">`
-* Import JS scripts at the end of `<body>`
+  * Attributes that don't need an explicit value like `disabled` should have its value set as the attribute name e.g. `<element disabled="disabled">``
 
 ### CSS
 * use your best judgement lol
