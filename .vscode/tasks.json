@@ -20,6 +20,13 @@
 			"group": "build",
 			"label": "npm: build",
 			"detail": "webpack"
+		},
+		{
+			"type": "shell",
+			"label": "wasm: build",
+			"group": "build",
+			"command": "bash wasm_build.sh",
+			"problemMatcher": []
 		}
 	]
 }

@@ -21,8 +21,11 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-eslint": "^10.1.0",
+    "cpp-wasm-loader": "^0.9.0",
     "css-loader": "^5.0.0",
     "eslint": "^7.12.0",
+    "exports-loader": "^1.1.1",
+    "file-loader": "^6.1.1",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.2.0",
