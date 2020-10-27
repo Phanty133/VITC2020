@@ -154,3 +154,33 @@ body{
 	background: #4CAF50;
 	cursor: pointer;
 }
+#top{
+	position: absolute;
+	top: 0;
+	height: 3.7vw;
+	width: 100%;
+	pointer-events: none;
+}
+#dateC1{
+	width: 20vw;
+	height: 100%;
+	margin: auto;
+	border-bottom-right-radius: 2vh;
+	border-bottom-left-radius: 2vh;
+	background-color: rgba(122, 255, 188, 0.6);
+}
+#dateC2{
+	width: 18vw;
+	height: 80%;
+	margin: auto;
+	border-bottom-right-radius: 2vh;
+	border-bottom-left-radius: 2vh;
+	background-color: #0fff9b;
+}
+#dateC2 > p{
+	font-family: 'Russo One';
+	color: white;
+	font-size: 2vw;
+	text-align: center;
+	margin: 0;
+}
