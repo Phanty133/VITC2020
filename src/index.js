@@ -4,7 +4,8 @@ import "leaflet/dist/leaflet.css";
 
 // Import JS modules
 import { Map } from "./js/map.js";
-import "./js/sim.js";
+//import "./js/sim.js";
+import "./js/ui.js";
 
 function init(){
 	// Initialize map

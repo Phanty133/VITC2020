@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div id="map"></div>
-	<div id = 'right'>
+	<div id = "right">
 		<input type = "image" id = "about" src = "./images/i.png"></input>
 		<div id = "aboutText">
 			<p>
@@ -16,6 +16,19 @@
 		</div>
 		<div id = "aboutName">
 			<h2>About<h2>
+		</div>
+	</div>
+	<div id = "bottom">
+		<div class = "sliderContainer" id = "slcLeft">
+			<img src="./images/isopleth_small.png" class = "leftImg">
+			<input type="range" id="isopethSlider" value = "20" maxvalue = "100"></input>
+			<img src="./images/isopleth_large.png" class = "rightImg">
+		</div>
+		<input type = "image" id = "windToggle" src = "./images/wind_toggle.png" clicked = "0"></input>
+		<div class = "sliderContainer" id = "slcRight">
+			<img src="./images/resolution_small.png" class = "leftImg">
+			<input type="range" id="isopethSlider" value = "70" maxvalue = "100"></input>
+			<img src="./images/resolution_large.png" class = "rightImg">
 		</div>
 	</div>
 	<script src="bundle.js"></script>
