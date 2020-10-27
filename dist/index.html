@@ -19,16 +19,34 @@
 		</div>
 	</div>
 	<div id = "bottom">
-		<div class = "sliderContainer" id = "slcLeft">
-			<img src="./images/isopleth_small.png" class = "leftImg">
-			<input type="range" id="isopethSlider" value = "20" maxvalue = "100"></input>
-			<img src="./images/isopleth_large.png" class = "rightImg">
+		<div class = "groupContainer" id = "gcL">
+			<div class = "sliderContainer" id = "slcLeft">
+				<img src="./images/isopleth_small.png" class = "leftImg">
+				<input type="range" id="isopethSlider" value = "20" maxvalue = "100"></input>
+				<img src="./images/isopleth_large.png" class = "rightImg">
+			</div>
+			<div class = "sliderContainer" id = "slcLeft">
+				<img src="./images/isopleth_small.png" class = "leftImg">
+				<input type="range" id="isopethSlider" value = "80" maxvalue = "100"></input>
+				<img src="./images/isopleth_large.png" class = "rightImg">
+			</div>
 		</div>
-		<input type = "image" id = "windToggle" src = "./images/wind_toggle.png" clicked = "0"></input>
-		<div class = "sliderContainer" id = "slcRight">
-			<img src="./images/resolution_small.png" class = "leftImg">
-			<input type="range" id="isopethSlider" value = "70" maxvalue = "100"></input>
-			<img src="./images/resolution_large.png" class = "rightImg">
+		<div class = "buttonContainer">
+			<input type = "image" id = "windToggle" src = "./images/wind_toggle.png" clicked = "0"></input>
+			<input type = "image" id = "playToggle" src = "./images/play_toggle.png" clicked = "1"></input>
+			<input type = "image" id = "sumToggle" src = "./images/sum_toggle.png" clicked = "0"></input>
+		</div>
+		<div class = "groupContainer" id = "gcR">
+			<div class = "sliderContainer" id = "slcRight">
+				<img src="./images/resolution_small.png" class = "leftImg">
+				<input type="range" id="isopethSlider" value = "30" maxvalue = "100"></input>
+				<img src="./images/resolution_large.png" class = "rightImg">
+			</div>
+			<div class = "sliderContainer" id = "slcRight">
+				<img src="./images/resolution_small.png" class = "leftImg">
+				<input type="range" id="isopethSlider" value = "70" maxvalue = "100"></input>
+				<img src="./images/resolution_large.png" class = "rightImg">
+			</div>
 		</div>
 	</div>
 	<div id = "top">
