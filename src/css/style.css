@@ -80,3 +80,107 @@ body{
 	color: white;
 	font-size: 5vh;
 }
+#bottom{
+	position: absolute;
+	height: 15vh;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+}
+.sliderContainer {
+	position: fixed;
+	width: 20vw;
+	height: 10vh;
+	bottom: 0;
+}
+#slcLeft{
+	left: 24vw;
+}
+#slcRight{
+	right: 24vw;
+}
+#windToggle {
+	position: fixed;
+	width: 7vw;
+	height: auto;
+	left: 46.5vw;
+	opacity: 0.5;
+	bottom: 1vh;
+}
+#windToggle:focus{
+	outline: none;
+}
+.sliderContainer > img {
+	width: 20%;
+	height: auto;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+.sliderContainer > .leftImg {
+	left: 0;
+}
+.sliderContainer > .rightImg {
+	right: 0;
+}
+.sliderContainer > input {
+	-webkit-appearance: none;
+	width: 50%;
+	height: 1.5vh;
+	background: rgb(15, 255, 155, 0.5);
+	outline: none;
+	
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 25%;
+}
+.sliderContainer > input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 4vh;
+	height: 4vh;
+	border-radius: 50%;
+	background: #0fff9b;
+	cursor: pointer;
+}
+
+.sliderContainer > input::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4CAF50;
+	cursor: pointer;
+}
+#top{
+	position: absolute;
+	top: 0;
+	height: 3.7vw;
+	width: 100%;
+	pointer-events: none;
+}
+#dateC1{
+	width: 20vw;
+	height: 100%;
+	margin: auto;
+	border-bottom-right-radius: 2vh;
+	border-bottom-left-radius: 2vh;
+	background-color: rgba(122, 255, 188, 0.6);
+}
+#dateC2{
+	width: 18vw;
+	height: 80%;
+	margin: auto;
+	border-bottom-right-radius: 2vh;
+	border-bottom-left-radius: 2vh;
+	background-color: #0fff9b;
+}
+#dateC2 > p{
+	font-family: 'Russo One';
+	color: white;
+	font-size: 2vw;
+	text-align: center;
+	margin: 0;
+}
