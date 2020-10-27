@@ -32,7 +32,7 @@ Compile and host live server on `localhost:8080` with `npm start`. This will run
     * **ui.js** - User interface code for the simulation
     * **page.js** - Misc code for the webpage (nothing related to the simulation)
   * wasm
-    * **calc.c** - Speedy calculations for SO2 deposition formulas
+    * **calc.c** - SO2 deposition simulation and map math
 
 **Structure is subject to change**
 

@@ -17,9 +17,31 @@ module.exports = {
 	},
 	resolve:{
 		modules: [path.resolve(__dirname, "src"), "node_modules", ],
-		extensions: [".js", ".c", ".cpp", ".css"]
+		extensions: [".js", ".c", ".cpp", ".css"],
+		alias: {
+			"./images/layers.png$": path.resolve(
+				__dirname,
+				"./node_modules/leaflet/dist/images/layers.png"
+			),
+			"./images/layers-2x.png$": path.resolve(
+				__dirname,
+				"./node_modules/leaflet/dist/images/layers-2x.png"
+			),
+			"./images/marker-icon.png$": path.resolve(
+				__dirname,
+				"./node_modules/leaflet/dist/images/marker-icon.png"
+			),
+			"./images/marker-icon-2x.png$": path.resolve(
+				__dirname,
+				"./node_modules/leaflet/dist/images/marker-icon-2x.png"
+			),
+			"./images/marker-shadow.png$": path.resolve(
+				__dirname,
+				"./node_modules/leaflet/dist/images/marker-shadow.png"
+			)
+		}
 	},
-	//node: false,
+	node: false,
 	module: {
 		rules: [
 			{
@@ -30,7 +52,7 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.png$/,
+				test: /\.(gif|svg|jpg|png)$/,
 				loader: "file-loader"
 			},
 			{
@@ -41,7 +63,14 @@ module.exports = {
 			},
 			{
 				test: /\.(c|cpp)$/,
-				loader: "cpp-wasm-loader"
+				use: {
+					loader: "cpp-wasm-loader",
+					options: {
+						// For some godforsaken reason, when adding extra flags, you need to remove the space between "-s" and the flag name. 
+						// Why? Because fuck you. Thats why.
+						emccFlags: (existingFlags) => existingFlags.concat(["-sERROR_ON_UNDEFINED_SYMBOLS=0"]) 
+					}
+				}
 			}
 		]
 	}

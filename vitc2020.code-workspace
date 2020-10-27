@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"algorithm": "c",
+			"queue": "c",
+			"stack": "c",
+			"cmath": "c"
+		}
+	}
 }
