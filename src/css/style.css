@@ -87,27 +87,51 @@ body{
 	bottom: 0;
 	left: 0;
 }
-.sliderContainer {
+.groupContainer {
 	position: fixed;
-	width: 20vw;
-	height: 10vh;
+	height: 5vh;
+	bottom: 3vh;
+}
+#gcL {
+	left: 10vw;
+}
+#gcR {
+	right: 10vw;
+}
+.sliderContainer {
+	position: relative;
+	width: 14vw;
+	height: 100%;
 	bottom: 0;
 }
 #slcLeft{
-	left: 24vw;
+	float: left;
+	margin-right: 1vw;
 }
 #slcRight{
-	right: 24vw;
+	float: right;
+	margin-left: 1vw;
 }
-#windToggle {
+.buttonContainer {
 	position: fixed;
-	width: 7vw;
-	height: auto;
-	left: 46.5vw;
-	opacity: 0.5;
-	bottom: 1vh;
+	left: 40vw;
+	bottom: 0;
 }
-#windToggle:focus{
+#playToggle {
+	width: 8vw;
+	top: -1vw;
+	opacity: 1;
+}
+.buttonContainer > input {
+	position: relative;
+	width: 6vw;
+	height: auto;
+	float: left;
+	opacity: 0.5;
+	bottom: 0;
+	top: 1vw;
+}
+.buttonContainer > input:focus {
 	outline: none;
 }
 .sliderContainer > img {
@@ -171,7 +195,7 @@ body{
 }
 #dateC2{
 	width: 18vw;
-	height: 80%;
+	height: 77%;
 	margin: auto;
 	border-bottom-right-radius: 2vh;
 	border-bottom-left-radius: 2vh;
