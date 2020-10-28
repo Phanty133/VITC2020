@@ -218,7 +218,6 @@ body{
 	left: 0;
 	top: 0;
 	background-color: #0fff9b;
-	opacity: 0;
 	transition: ease-in-out 1s;
 	pointer-events: none;
 }
