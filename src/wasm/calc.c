@@ -17,6 +17,11 @@ extern "C"{
 		float value;
 	};
 
+	float setLowerBound(float val, float min){
+		if(val < min) return min;
+		return val;
+	}
+
 	Geocoord sumGeocoords(Geocoord a, Geocoord b){
 		Geocoord newCoord;
 
@@ -48,15 +53,18 @@ extern "C"{
 		return a * expf(b) * powf(u, -1.25 * expf(c)) * Q;
 	}
 
-	void generateRandomPointInCircle(float radius, Geocoord* buffer){
-		float t, u, r;
-		
-		t = 2 * M_PI * randFloat();
-		u = randFloat() + randFloat();
-		r = u > radius ? 2 * radius - u : u;
-		
-		buffer->lat = r * cosf(t);
-		buffer->lng = r * sinf(t);
+	void EMSCRIPTEN_KEEPALIVE generateRandomPointInCircle(float radius, Geocoord* buffer){
+		float theta = 2 * M_PI * randFloat();
+		float r = sqrtf(randFloat());
+		float k = r * radius;
+
+		buffer->lng = k * cosf(theta);
+		buffer->lat = k * sinf(theta);
+	}
+
+	void EMSCRIPTEN_KEEPALIVE generateRandomPointInSquare(float a, Geocoord* buffer){
+		buffer->lat = randFloat() * a;
+		buffer->lng = randFloat() * a;
 	}
 
 	float EMSCRIPTEN_KEEPALIVE geoPointDistance(float p1lat, float p1lng, float p2lat, float p2lng){ // Returns distance in meters
@@ -70,7 +78,7 @@ extern "C"{
 
 		a = powf(sinf(dlat / 2), 2) + cosf(phi1) * cos(phi2) * powf(sinf(dlng / 2), 2);
 		c = 2 * atan2f(sqrtf(a), sqrtf(1 - a));
-		return R * c; 
+		return R * c;
 	}
 
 	void EMSCRIPTEN_KEEPALIVE generateRandomDataPoints(int dataPointCount, float radius, Geocoord center, DataPoint* buffer){
@@ -101,7 +109,7 @@ extern "C"{
 		py = p.lat - c.lat;
 		px = p.lng - c.lng;
 
-		if(px < 0){
+		if(px > 0){
 			theta = theta + M_PI;
 		}
 
@@ -121,6 +129,7 @@ extern "C"{
 		float radius, 
 		Geocoord center, 
 		float windSpeed,
+		float windSpeedMin,
 		float windAngle,
 		float Q,
 		int h,
@@ -136,8 +145,8 @@ extern "C"{
 		for(i = 0; i < dataPointCount; i++){
 			DataPoint p = *(buffer + i);
 			int x = (int) p.value;
-			float u = relativeWindspeedAtPoint(p.coord, center, windSpeed);
-			float val = calcDeposition1(x, u, n, h, Q);
+			float u = setLowerBound(relativeWindspeedAtPoint(p.coord, center, windSpeed), windSpeedMin);
+			float val = calcDeposition(x, u, n, h, Q);
 
 			p.coord = transformPointRelativeToWind(p.coord, center, windAngle);
 			p.value = val;
@@ -178,15 +187,59 @@ extern "C"{
 		plotWindspeed(c, windSpeed, windAngle, pointCount, radius, buffer);
 	}
 
-	void EMSCRIPTEN_KEEPALIVE calcTest(float windSpeed, float windAngle, int pointCount, float radius, DataPoint* buffer){
+	void EMSCRIPTEN_KEEPALIVE calcFrameWrapper(
+		float windSpeed, 
+		float windSpeedMin,
+		float clat, 
+		float clng, 
+		float windAngle, 
+		int pointCount, 
+		float radius, 
+		float Q,
+		int h,
+		float n,
+		DataPoint* buffer
+	){
 		Geocoord c;
-		c.lat = 56.792;
-		c.lng = 23.577;
+		c.lat = clat;
+		c.lng = clng;
 
-		float Q = 0.00206;
-		int h = 30;
-		float n = 1;
+		calculateRandomDataPoints(pointCount, radius, c, windSpeed, windSpeedMin, windAngle, Q, h, n, buffer);
+	}
 
-		calculateRandomDataPoints(pointCount, radius, c, windSpeed, windAngle, Q, h, n, buffer);
+	void EMSCRIPTEN_KEEPALIVE calcDatasetWrapper(
+		float windSpeedMin,
+		float clat,
+		float clng,
+		int pointCount,
+		float radius,
+		float Q,
+		int h,
+		float n,
+		int frameCount,
+		float* windSpeed,
+		float* windAngle,
+		DataPoint* buffer
+	){
+		Geocoord c;
+		c.lat = clat;
+		c.lng = clng;
+
+		int i;
+
+		for(i = 0; i < frameCount; i++){
+			calculateRandomDataPoints(
+				pointCount, 
+				radius, 
+				c, 
+				*(windSpeed + i),
+				windSpeedMin,
+				*(windAngle + i),
+				Q,
+				h,
+				n,
+				buffer + i * pointCount
+			);
+		}
 	}
 }

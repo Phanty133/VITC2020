@@ -6,6 +6,12 @@ import "leaflet/dist/leaflet.css";
 import { Map } from "./js/map.js";
 import { SOSimulation } from "./js/sim.js";
 
+// Import simulation data
+import windSpeed from "data/wind_speed.json";
+import windDir from "data/wind_direction.json";
+import windSpeedExtended from "data/wind_speed_extended.json";
+import windDirExtended from "data/wind_direction_extended.json";
+
 function init(){
 	// Initialize map
 
@@ -13,78 +19,44 @@ function init(){
 	const zoom = 8;
 
 	const map = new Map("map", kalnciemaCoord, zoom);
-	const sim = new SOSimulation();
+	const sim = new SOSimulation(kalnciemaCoord, {
+		windSpeed: windSpeed, 
+		windAngle: windDir, 
+		pointCount: 15000, 
+		Q: 1, 
+		n: 1, 
+		h: 30,
+		radius: 2,
+		lowerBound: 0.2,
+		windSpeedLowerBound: 0.5,
+		accumulate: true,
+		gridPrecision: 1
+	});
 	sim.init().then(() => {
 		console.log("WASM initialized!");
+
+		//map.drawData(sim.calcFrame(0), {minValue: 0, maxValue: 0.4});
 		
-		const elCnt = 15000;
-		const elSize = 3;
-		const memSize = elCnt * elSize;
-
-		const memory = sim.module.memoryManager;
-		const bufferPtr = memory.malloc(memSize);
-
-		/* 
-		const secondsPerRotation = 10;
-		const steps = 128;
-		const increment = Math.PI * 2 / steps;
-		let windAngle = 0;
-		
-		setInterval(() => {
-			windAngle+=increment;
-			const t0 = performance.now();
-			sim.module.exports.windTest(5, windAngle, elCnt, 0.5, bufferPtr[0]);
-			console.log(`${performance.now() - t0}ms`);
-
-			const dataset = [];
-
-			for(let i = 0; i < elCnt; i++){
-				let el = [];
-				for(let j = 0; j < elSize; j++){
-					el.push(memory.get(bufferPtr[i * elSize + j]));
-				}
-				
-				dataset.push(el);
-			}
-
-			map.clearMap();
-			map.drawData(dataset, {minValue: 0, maxValue: 5});
-		}, secondsPerRotation * 1000 / steps);*/
+		// Calculate dataset
+		const frames = 366;
+		const totalTime = 60;
+		const secPerFrame = totalTime / frames;
 
 		const t0 = performance.now();
-		sim.module.exports.calcTest(3.76, 3.4, elCnt, 2, bufferPtr[0]);
-		//sim.module.exports.windTest(5, 0, elCnt, 1, bufferPtr[0]);
-		console.log(`${performance.now() - t0}ms`);
-
-		const dataset = [];
-
-		let max = 0;
-		let min = 100;
-		let lowerBound = 0.001;
-		let upperBound = Infinity;
-
-		for(let i = 0; i < elCnt; i++){
-			let el = [];
-			for(let j = 0; j < elSize; j++){
-				el.push(memory.get(bufferPtr[i * elSize + j]));
-			}
-
-			if(el[2] !== Infinity && el[2] > lowerBound && el[2] < upperBound) {
-				if(el[2] > max) max = el[2];
-				if(el[2] < min) min = el[2];
-
-				dataset.push(el);
-			} 
-		}
-
-		console.log(`Min: ${min}`);
-		console.log(`Max: ${max}`);
+		const dataset = sim.calcFrames(0, frames);
 		console.log(dataset);
+		console.log(`${performance.now() - t0}ms`);
+		console.log("Max: ", sim.max);
 
-		map.clearMap();
-		map.drawData(dataset, {minValue: 0, maxValue: 0.03});
+		let i = 0;
 
-		memory.free(bufferPtr);
+		const interv = setInterval(() => {
+			map.clearMap();
+			map.drawData(sim.accGridToCoordinates(i++), {maxValue: 60});
+			if(i === dataset.length) {clearInterval(interv); console.log("done");}
+		}, secPerFrame * 1000);
+
+		sim.freeMemory(sim.bufferPtr);
 	});
 }
 
