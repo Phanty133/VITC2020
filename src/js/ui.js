@@ -61,5 +61,5 @@ export function loading(state){
 export function mainSetResetIcon(){
 	const btn = document.getElementById("playToggle");
 	btn.setAttribute("clicked", "1");
-	btn.src = "./images/reset.png";
+	btn.src = "./images/reset_toggle.png";
 }

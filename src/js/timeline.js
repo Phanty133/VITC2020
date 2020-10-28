@@ -14,7 +14,7 @@ Date.prototype.addDays = function(days) {
 export class Timeline{
 	constructor(options = null, inputs = null, defaultInputVal = null){
 		this.options = defaultArgs(options, {
-			simLength: 5,
+			simLength: 60,
 			frameCount: 366,
 			blur: 25,
 			radius: 25,
@@ -191,7 +191,7 @@ export class Timeline{
 			const el = document.getElementById(this.inputs[k]);
 
 			if(k !== "maxValue" && el.value != this.defaultInputVal[k][(accIndex + 1) % 2]) continue;
-			
+
 			el.value = this.defaultInputVal[k][accIndex];
 			this.frameOptions[k] = this.defaultInputVal[k][accIndex];
 		}
