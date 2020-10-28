@@ -1,19 +1,20 @@
 import { defaultArgs } from "js/func";
+import { loading, mainSetResetIcon } from "js/ui";
 
 function elVal(id){
 	return document.getElementById(id).value;
 }
 
 Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-}
+	var date = new Date(this.valueOf());
+	date.setDate(date.getDate() + days);
+	return date;
+};
 
 export class Timeline{
 	constructor(options = null, inputs = null, defaultInputVal = null){
 		this.options = defaultArgs(options, {
-			simLength: 60,
+			simLength: 5,
 			frameCount: 366,
 			blur: 25,
 			radius: 25,
@@ -37,22 +38,22 @@ export class Timeline{
 		this.inputs = defaultArgs(inputs, {
 			resolution: "resolutionInput",
 			scrubbing: "scrubbingInput",
-			lowerBound: "lowerBoundInput",
+			cloudiness: "cloudinessInput",
 			maxValue: "maxValueInput"
 		});
 
 		this.defaultInputVal = defaultArgs(defaultInputVal, { // [Value when accumulate = false, Value when accumulate = true]
 			resolution: [10000, 5000],
 			scrubbing: [0, 0],
-			lowerBound: [0.2, 0.01],
+			cloudiness: [0.5, 0.5],
 			maxValue: [0.5, 60]
 		});
 
+		this.frameOptions = {};
 		this.updateInputs();
 
 		this.curFrame = -1;
 		this.frameData = null;
-		this.frameOptions = null;
 		this.clock = null;
 		this.sim = this.options.sim;
 		this.map = this.options.map;
@@ -60,6 +61,7 @@ export class Timeline{
 		this.paused = false;
 		this.dateEl = document.getElementById(this.options.dateElID);
 		this.curDate = this.options.date0;
+		this.done = false;
 	}
 
 	precalculateFrames(){
@@ -69,24 +71,30 @@ export class Timeline{
 		}
 
 		this.sim.options.pointCount = this.frameOptions.resolution;
-		this.sim.options.lowerBound = this.frameOptions.lowerBound;
+		this.sim.options.n = this.frameOptions.cloudiness;
 		this.sim.options.scrubbing = this.frameOptions.scrubbing;
 
 		this.frameData = this.sim.calcFrames(0, this.options.frameCount);
 	}
 
-	start(options = null){
+	start(options = null){		
 		this.frameOptions = defaultArgs(options, {
 			resolution: elVal(this.inputs.resolution),
 			scrubbing: elVal(this.inputs.scrubbing),
-			lowerBound: elVal(this.inputs.lowerBound),
+			cloudiness: elVal(this.inputs.cloudiness),
 			maxValue: elVal(this.inputs.maxValue),
 			displayAccumulate: this.options.displayAccumulate
 		});
 
-		this.curFrame = -1;
-		this.precalculateFrames();
-		this.clock = setInterval(() => {this.update();}, this.spf * 1000);
+		loading(true);
+
+		setTimeout(() => {
+			this.curFrame = -1;
+			this.precalculateFrames();
+			this.clock = setInterval(() => {this.update();}, this.spf * 1000);
+
+			loading(false);
+		}, 1000);
 	}
 
 	drawNextFrame(){
@@ -98,6 +106,7 @@ export class Timeline{
 		};
 
 		console.log(this.frameOptions);
+		console.log(this.curFrame);
 
 		if(this.frameOptions.displayAccumulate){
 			this.map.drawData(this.sim.accGridToCoordinates(++this.curFrame), options);
@@ -109,6 +118,10 @@ export class Timeline{
 
 	update(){
 		if(this.paused) return;
+		if(this.curFrame === this.options.frameCount - 1) {
+			this.endSimulation();
+			return;
+		}
 
 		this.drawNextFrame();
 
@@ -117,18 +130,31 @@ export class Timeline{
 
 		this.curDate = this.curDate.addDays(this.curFrame % this.options.framesPerDay + 1);
 		this.dateEl.innerText = `${date.length === 1 ? `0${date}` : date}.${month.length === 1 ? `0${month}` : month}.${this.curDate.getFullYear()}`;
+	}
 
-		if(this.curFrame === this.options.frameCount) clearInterval(this.clock);
+	endSimulation(){
+		clearInterval(this.clock);
+		this.pause();
+		mainSetResetIcon();
+		this.done = true;
 	}
 
 	pause(state = true){
+		if(this.done){
+			this.restart();
+			return;
+		}
+
 		this.paused = state;
 	}
 
 	restart(){
-		this.curFrame = 0;
+		this.done = false;
 		this.frameData = null;
-		this.start();
+		this.frameOptions = {};
+		this.curFrame = -1;
+		this.map.clearMap();
+		this.pause(false);
 	}
 
 	recalculateRemainingFrames(){
@@ -137,27 +163,37 @@ export class Timeline{
 			return;
 		}
 
-		if(this.curFrame === this.options.frameCount) return;
+		if(this.done || this.curFrame === -1) return;
 
 		this.getInputs();
 
 		this.sim.options.pointCount = this.frameOptions.resolution;
-		this.sim.options.lowerBound = this.frameOptions.lowerBound;
-		this.sim.options.scrubbing = this.frameOptions.scrubbing;
+		this.sim.options.n = this.frameOptions.cloudiness;
+		this.sim.options.scrubbing = this.frameOptions.scrubbing / 100;
 
-		this.frameData = this.sim.calcFrames(this.curFrame, this.options.frameCount);
+		loading(true);
+		let prevPause = this.paused;
+		this.pause();
+
+		setTimeout(() => {
+			this.frameData.splice(this.curFrame, this.options.frameCount - this.curFrame);
+			this.frameData.push(...this.sim.calcFrames(this.curFrame, this.options.frameCount));
+			if(!prevPause) this.pause(false);
+
+			loading(false);
+		}, 1000);
 	}
 
 	updateInputs(){
-		let accIndex = 0;
-
-		if(this.frameOptions && this.frameOptions.displayAccumulate){
-			accIndex = 1;
-		}
+		let accIndex = this.frameOptions.displayAccumulate ? 1 : 0;
 
 		for(let k in this.defaultInputVal){
-			document.getElementById(this.inputs[k]).value = this.defaultInputVal[k][accIndex];
-			if(this.frameOptions) this.frameOptions[k] = this.defaultInputVal[k][accIndex];
+			const el = document.getElementById(this.inputs[k]);
+
+			if(k !== "maxValue" && el.value != this.defaultInputVal[k][(accIndex + 1) % 2]) continue;
+			
+			el.value = this.defaultInputVal[k][accIndex];
+			this.frameOptions[k] = this.defaultInputVal[k][accIndex];
 		}
 	}
 
@@ -171,11 +207,17 @@ export class Timeline{
 
 	updateAccumulate(state){
 		this.options.displayAccumulate = state;
-
-		if(this.curFrame !== -1){ // Check if the simulation has been started
-			this.frameOptions.displayAccumulate = state;	
-		}
+		this.frameOptions.displayAccumulate = state;
 
 		this.updateInputs();
+
+		if(this.paused){
+			this.redrawCurrentFrame();
+		}
+	}
+
+	redrawCurrentFrame(){
+		this.curFrame = this.done ? this.options.frameCount - 2 : this.curFrame - 1;
+		this.drawNextFrame();
 	}
 }

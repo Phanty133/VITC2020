@@ -12,7 +12,7 @@ export class Map{
 
 		L.tileLayer(mbUrl, {
 			attribution: mbAttr,
-			maxZoom: 18,
+			minZoom: 6,
 			id: "mapbox/streets-v11",
 			tileSize: 512,
 			zoomOffset: -1,

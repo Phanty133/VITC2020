@@ -11,7 +11,7 @@
 		<input type = "image" id = "about" src = "./images/i.png">
 		<div id = "aboutText">
 			<p>
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa amet quae aspernatur labore nihil aliquam, reprehenderit excepturi unde, deserunt animi, eum veritatis mollitia. Incidunt cumque cupiditate, molestias quisquam amet tempora.
+				The simulation can be started by pressing the play button in the centre of the taskbar. It might take a couple of seconds for the simulation to get calculated. As the simulation plays, the daily SO2 deposition is shown for each day using the data from the year of 2019. To the left, there is a toggle for the wind overlay - the wind overlay shows the average wind direction and speed in that day, and has a direct correlation to the SO2 deposition. To the right, there is a toggle for the accumulative deposition - it shows the total SO2 accumulated from all of the simulated days. There are also 4 sliders to adjust. You can adjust, starting from the left: 1) The maximum value of the heatmap - what value of SO2 accumulation should be red (0.5 - 70) 2) The scrubbing efficiency of the SO2 in the factory (0-100%) 3) The resolution of data points, how many data points are calculated (1000 - 20000) 4) The lower bound of the heatmap (0.01-0.1)	
 			</p>
 		</div>
 		<div id = "aboutName">
@@ -21,14 +21,14 @@
 	<div id = "bottom">
 		<div class = "groupContainer" id = "gcL">
 			<div class = "sliderContainer" id = "slcLeft">
-				<img src="./images/isopleth_small.png" class = "leftImg">
-				<input type="range" id="lowerBoundInput" value = "0.01" max = "0.1" min="0.01" step="0.01" />
-				<img src="./images/isopleth_large.png" class = "rightImg">
+				<img src="./images/lowerbound_small.png" class = "leftImg">
+				<input type="range" id="cloudinessInput" value = "0.5" max = "1" min="0" step="0.1" />
+				<img src="./images/lowerbound_large.png" class = "rightImg">
 			</div>
 			<div class = "sliderContainer" id = "slcLeft">
-				<img src="./images/scrubbing_small.png" class = "leftImg">
-				<input type="range" id="maxValueInput" value = "60" max = "100" min="0.5" step = "0.5"/>
-				<img src="./images/scrubbing_large.png" class = "rightImg">
+				<img src="./images/isopleth_large.png" class = "leftImg">
+				<input type="range" id="maxValueInput" value = "60" max = "80" min="0.5" step = "0.5"/>
+				<img src="./images/isopleth_small.png" class = "rightImg">
 			</div>
 		</div>
 
@@ -40,9 +40,9 @@
 
 		<div class = "groupContainer" id = "gcR">
 			<div class = "sliderContainer" id = "slcRight">
-				<img src="./images/lowerbound_small.png" class = "leftImg">
+				<img src="./images/scrubbing_small.png" class = "leftImg">
 				<input type="range" id="scrubbingInput" value = "0" max="100" min="0" step="1"/>
-				<img src="./images/lowerbound_large.png" class = "rightImg">
+				<img src="./images/scrubbing_large.png" class = "rightImg">
 			</div>
 			<div class = "sliderContainer" id = "slcRight">
 				<img src="./images/resolution_small.png" class = "leftImg">
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	<div id = "bgLoad">
-		<div class="loader">Loading...</div>
+		<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 	</div>
 	
 	<script src="bundle.js"></script>

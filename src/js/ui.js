@@ -13,7 +13,7 @@ export function initInputs(timeline){
 		co.src = !c ? "./images/pause_toggle.png" : "./images/play_toggle.png";
 
 		if(!c){
-			if(timeline.paused){
+			if(timeline.curFrame >= 0){
 				timeline.pause(false);
 			}
 			else{
@@ -33,14 +33,14 @@ export function initInputs(timeline){
 		co.style.opacity = c ? "0.5" : "1";
 		
 		timeline.updateAccumulate(!c);
-		console.log(!c);
 	});
 
 	document.getElementById("maxValueInput").addEventListener("mousemove", () => {
 		timeline.frameOptions.maxValue = document.getElementById("maxValueInput").value;
+		timeline.redrawCurrentFrame();
 	});
 
-	document.getElementById("lowerBoundInput").addEventListener("mouseup", () => {
+	document.getElementById("cloudinessInput").addEventListener("mouseup", () => {
 		timeline.recalculateRemainingFrames();
 	});
 
@@ -51,4 +51,15 @@ export function initInputs(timeline){
 	document.getElementById("scrubbingInput").addEventListener("mouseup", () => {
 		timeline.recalculateRemainingFrames();
 	});
+}
+
+export function loading(state){
+	const el = document.getElementById("bgLoad");
+	el.style.opacity = state ? 0.75 : 0;
+}
+
+export function mainSetResetIcon(){
+	const btn = document.getElementById("playToggle");
+	btn.setAttribute("clicked", "1");
+	btn.src = "./images/reset.png";
 }

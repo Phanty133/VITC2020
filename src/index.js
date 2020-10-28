@@ -10,7 +10,7 @@ import "leaflet/dist/leaflet.css";
 // Import JS modules
 import { Map } from "./js/map.js";
 import { SOSimulation } from "./js/sim.js";
-import { initInputs } from "./js/ui.js";
+import { initInputs, loading } from "./js/ui.js";
 import { Timeline } from "./js/timeline";
 
 // Import simulation data
@@ -45,8 +45,9 @@ function init(){
 		//map.drawData(sim.calcFrame(0), {minValue: 0, maxValue: 0.4});
 		
 		const timeline = new Timeline({sim: sim, map: map});
-
 		initInputs(timeline);
+
+		loading(false);
 	});
 }
 

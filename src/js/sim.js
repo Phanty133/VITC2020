@@ -119,7 +119,7 @@ export class SOSimulation{
 			theta, // Wind angle
 			this.options.pointCount, // Point count
 			this.options.radius, // Radius
-			this.options.Q, // SO2 emission rate
+			this.options.Q * (1 - this.options.scrubbing), // SO2 emission rate
 			this.options.h, // Stack height
 			this.options.n, // Cloudiness
 			this.bufferPtr[0]
