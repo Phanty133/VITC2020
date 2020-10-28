@@ -178,6 +178,7 @@ body{
 	background: #4CAF50;
 	cursor: pointer;
 }
+
 #top{
 	position: absolute;
 	top: 0;
@@ -200,6 +201,7 @@ body{
 	border-bottom-right-radius: 2vh;
 	border-bottom-left-radius: 2vh;
 	background-color: #0fff9b;
+	padding-top: 5px;
 }
 #dateC2 > p{
 	font-family: 'Russo One';

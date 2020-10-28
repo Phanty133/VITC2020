@@ -31,19 +31,20 @@ export class SOSimulation{
 			Q: 0.00206,
 			n: 0.5,
 			h: 30,
-			radius: 1,
+			radius: 2,
 			pointCount: 15000,
 			windSpeed: [3.76],
 			windAngle: [3.4],
 			dataPointSize: 3,
-			lowerBound: 0,
+			lowerBound: 0.01,
 			upperBound: Infinity,
 			reuseMemory: true,
 			windSpeedLowerBound: 0.4,
 			gridPrecision: 1,
 			gridLatRange: [55, 59],
 			gridLngRange: [21, 28],
-			accumulate: false
+			accumulate: true,
+			scrubbing: 0
 		});
 
 		if(this.options.windSpeed.length !== this.options.windAngle.length){
@@ -79,6 +80,11 @@ export class SOSimulation{
 		}
 
 		this.accGridHistory = [];
+		this.frameOrder = {
+			i0: null,
+			i1: null,
+			data: null
+		};
 	}
 
 	init(){
@@ -102,9 +108,9 @@ export class SOSimulation{
 	calcFrame(index){
 		const u = this.options.windSpeed[index];
 		const theta = this.options.windAngle[index];
-
+	
 		this.bufferPtr = this.checkBuffer(this.bufferPtr, this.options.pointCount * this.options.dataPointSize);
-
+	
 		this.calcFrameWrapper(
 			u, // Windspeed
 			this.options.windSpeedLowerBound,
@@ -118,9 +124,9 @@ export class SOSimulation{
 			this.options.n, // Cloudiness
 			this.bufferPtr[0]
 		);
-
+	
 		const data = this.readDataPointBuffer({accumulate: this.options.accumulate, index: index})[0]; // Read buffer and return first (and only) frame
-
+	
 		if(!this.options.reuseMemory) this.freeMemory(this.bufferPtr);
 
 		return data;

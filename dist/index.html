@@ -8,7 +8,7 @@
 <body>
 	<div id="map"></div>
 	<div id = "right">
-		<input type = "image" id = "about" src = "./images/i.png"></input>
+		<input type = "image" id = "about" src = "./images/i.png">
 		<div id = "aboutText">
 			<p>
 				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa amet quae aspernatur labore nihil aliquam, reprehenderit excepturi unde, deserunt animi, eum veritatis mollitia. Incidunt cumque cupiditate, molestias quisquam amet tempora.
@@ -22,29 +22,31 @@
 		<div class = "groupContainer" id = "gcL">
 			<div class = "sliderContainer" id = "slcLeft">
 				<img src="./images/isopleth_small.png" class = "leftImg">
-				<input type="range" id="isopethSlider" value = "20" maxvalue = "100"></input>
+				<input type="range" id="lowerBoundInput" value = "0.01" max = "0.1" min="0.01" step="0.01" />
 				<img src="./images/isopleth_large.png" class = "rightImg">
 			</div>
 			<div class = "sliderContainer" id = "slcLeft">
 				<img src="./images/isopleth_small.png" class = "leftImg">
-				<input type="range" id="isopethSlider" value = "80" maxvalue = "100"></input>
+				<input type="range" id="maxValueInput" value = "60" max = "100" min="0.5" step = "0.5"/>
 				<img src="./images/isopleth_large.png" class = "rightImg">
 			</div>
 		</div>
+
 		<div class = "buttonContainer">
-			<input type = "image" id = "windToggle" src = "./images/wind_toggle.png" clicked = "0"></input>
-			<input type = "image" id = "playToggle" src = "./images/play_toggle.png" clicked = "1"></input>
-			<input type = "image" id = "sumToggle" src = "./images/sum_toggle.png" clicked = "0"></input>
+			<input type = "image" id = "windToggle" src = "./images/wind_toggle.png" clicked = "0" />
+			<input type = "image" id = "playToggle" src = "./images/play_toggle.png" clicked = "0" />
+			<input type = "image" id = "sumToggle" src = "./images/sum_toggle.png" clicked = "0" />
 		</div>
+
 		<div class = "groupContainer" id = "gcR">
 			<div class = "sliderContainer" id = "slcRight">
 				<img src="./images/resolution_small.png" class = "leftImg">
-				<input type="range" id="isopethSlider" value = "30" maxvalue = "100"></input>
+				<input type="range" id="scrubbingInput" value = "0" max="100" min="0" step="1"/>
 				<img src="./images/resolution_large.png" class = "rightImg">
 			</div>
 			<div class = "sliderContainer" id = "slcRight">
 				<img src="./images/resolution_small.png" class = "leftImg">
-				<input type="range" id="isopethSlider" value = "70" maxvalue = "100"></input>
+				<input type="range" id="resolutionInput" value = "5000" max = "20000" min = "1000" step="500" />
 				<img src="./images/resolution_large.png" class = "rightImg">
 			</div>
 		</div>
@@ -52,7 +54,7 @@
 	<div id = "top">
 		<div id = "dateC1">
 			<div id = "dateC2">
-				<p id = "dateDisplay">24th of January</p>
+				<p id = "dateDisplay">01.01.2019</p>
 			</div>
 		</div>
 	</div>

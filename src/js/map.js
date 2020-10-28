@@ -3,18 +3,23 @@ import "leaflet.heat";
 import { Color } from "js/color.js";
 
 export class Map{
-	constructor(id, view, zoom){
-		this.map = L.map(id).setView(view, zoom);
+	constructor(id, coord, zoom){
+		this.map = L.map(id).setView(coord, zoom);
 		this.overlay = L.layerGroup().addTo(this.map);
 
-		L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-			attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+		const mbAttr = "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community";
+		const mbUrl = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+
+		L.tileLayer(mbUrl, {
+			attribution: mbAttr,
 			maxZoom: 18,
 			id: "mapbox/streets-v11",
 			tileSize: 512,
 			zoomOffset: -1,
 			accessToken: "pk.eyJ1IjoicGhhbnR5IiwiYSI6ImNrOHZ5MXFoNjA0OWkzb3FwbngwOWI1NWIifQ.zKnx4A9kbXPiRAysdc0asA"
 		}).addTo(this.map);
+
+		L.circle(coord, {color: "#FF0000", radius: 800, fillOpacity: 1}).addTo(this.map);
 	}
 
 	drawData(dataset, options = null){ // dateset - [[lat, lng, value]]

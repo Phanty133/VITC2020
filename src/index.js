@@ -1,3 +1,8 @@
+// Import fonts
+
+import "./fonts/OpenSans-Light.ttf";
+import "./fonts/RussoOne-Regular.ttf";
+
 // Import css
 import "./css/style.css";
 import "leaflet/dist/leaflet.css";
@@ -5,6 +10,8 @@ import "leaflet/dist/leaflet.css";
 // Import JS modules
 import { Map } from "./js/map.js";
 import { SOSimulation } from "./js/sim.js";
+import { initInputs } from "./js/ui";
+import { Timeline } from "./js/timeline";
 
 // Import simulation data
 import windSpeed from "data/wind_speed.json";
@@ -16,9 +23,10 @@ function init(){
 	// Initialize map
 
 	const kalnciemaCoord = [56.792, 23.577];
-	const zoom = 8;
+	const zoom = 7;
 
 	const map = new Map("map", kalnciemaCoord, zoom);
+
 	const sim = new SOSimulation(kalnciemaCoord, {
 		windSpeed: windSpeed, 
 		windAngle: windDir, 
@@ -29,34 +37,17 @@ function init(){
 		radius: 2,
 		lowerBound: 0.2,
 		windSpeedLowerBound: 0.5,
-		accumulate: true,
 		gridPrecision: 1
 	});
+
 	sim.init().then(() => {
 		console.log("WASM initialized!");
 
 		//map.drawData(sim.calcFrame(0), {minValue: 0, maxValue: 0.4});
 		
-		// Calculate dataset
-		const frames = 366;
-		const totalTime = 60;
-		const secPerFrame = totalTime / frames;
+		const timeline = new Timeline({sim: sim, map: map});
 
-		const t0 = performance.now();
-		const dataset = sim.calcFrames(0, frames);
-		console.log(dataset);
-		console.log(`${performance.now() - t0}ms`);
-		console.log("Max: ", sim.max);
-
-		let i = 0;
-
-		const interv = setInterval(() => {
-			map.clearMap();
-			map.drawData(sim.accGridToCoordinates(i++), {maxValue: 60});
-			if(i === dataset.length) {clearInterval(interv); console.log("done");}
-		}, secPerFrame * 1000);
-
-		sim.freeMemory(sim.bufferPtr);
+		initInputs(timeline);
 	});
 }
 
