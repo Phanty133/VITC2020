@@ -26,7 +26,6 @@ function init(){
 	const zoom = 7;
 
 	const map = new Map("map", kalnciemaCoord, zoom);
-
 	const sim = new SOSimulation(kalnciemaCoord, {
 		windSpeed: windSpeed, 
 		windAngle: windDir, 
