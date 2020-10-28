@@ -1,15 +1,4 @@
-@font-face {
-	font-family: 'Russo One';
-	src: url('fonts/RussoOne-Regular.ttf') format('ttf');
-	font-weight: 600;
-	font-style: normal;
-  }
-@font-face {
-	font-family: 'Open Sans';
-	src: url('fonts/OpenSans-Light.ttf') format('ttf');
-	font-weight: 100;
-	font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Russo+One&display=swap');
 #map{
 	width: 100vw;
 	height: 100vh;
@@ -219,6 +208,7 @@ body{
 	top: 0;
 	background-color: #0fff9b;
 	transition: ease-in-out 1s;
+	opacity: 0;
 	pointer-events: none;
 }
 .loader {

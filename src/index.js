@@ -10,7 +10,7 @@ import "leaflet/dist/leaflet.css";
 // Import JS modules
 import { Map } from "./js/map.js";
 import { SOSimulation } from "./js/sim.js";
-import { initInputs } from "./js/ui";
+import { initInputs } from "./js/ui.js";
 import { Timeline } from "./js/timeline";
 
 // Import simulation data

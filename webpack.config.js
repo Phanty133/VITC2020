@@ -72,7 +72,8 @@ module.exports = {
 					options: {
 						// For some godforsaken reason, when adding extra flags, you need to remove the space between "-s" and the flag name. 
 						// Why? Because fuck you. Thats why.
-						emccFlags: (existingFlags) => existingFlags.concat(["-sERROR_ON_UNDEFINED_SYMBOLS=0"]) 
+						emccFlags: (existingFlags) => existingFlags.concat(["-sERROR_ON_UNDEFINED_SYMBOLS=0"]),
+						emccPath: "C:\\Users\\Saecl\\emsdk\\upstream\\emscripten\\em++.bat"
 					}
 				}
 			}
