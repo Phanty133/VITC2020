@@ -4,7 +4,8 @@ import "leaflet/dist/leaflet.css";
 
 // Import JS modules
 import { Map } from "./js/map.js";
-import { SOSimulation } from "./js/sim.js";
+//import { SOSimulation } from "./js/sim.js";
+import "./js/ui.js";
 
 // Import simulation data
 import windSpeed from "data/wind_speed.json";
@@ -19,6 +20,7 @@ function init(){
 	const zoom = 8;
 
 	const map = new Map("map", kalnciemaCoord, zoom);
+	
 	const sim = new SOSimulation(kalnciemaCoord, {
 		windSpeed: windSpeed, 
 		windAngle: windDir, 
