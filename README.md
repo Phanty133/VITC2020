@@ -1,7 +1,5 @@
 # VITC2020
-After 8 years of procrastination, hopefully it will have been worth the weight.
-
-Outline: [Google Docs](https://docs.google.com/document/d/1dEdyyxbawSNikHp6Vdax3v1C00PjcRTb6qxdRN5s1QM/edit?usp=sharing)
+After 3 weeks of procrastination, hopefully it will have been worth the 3 day code sprint.
 
 ## Installation
 
