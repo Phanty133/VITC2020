@@ -1,27 +1,36 @@
 # VITC2020
+## An SO2 deposition simulation from a theoretical accumulator recycling plant in Kalnciems
+
 After 3 weeks of procrastination, hopefully it will have been worth the 3 day code sprint.
 
-## Installation
+## Build from source
+1. Download packages: `npm i`
+2. Compile with `npm build`
 
-Download packages: `npm i`
+## Technical details
 
-## Usage
+### How the simulation works
 
-Compile and host live server on `localhost:8080` with `npm start`. This will run `webpack serve`. It enables page auto-reload and auto-recompiles code on change.
+1. JavaScript allocates or reuses previously allocated memory for interaction with WebAssembly.
+2. R random points are generated in a set radius around the center (R = resolution).
+3. The distance and initial bearing (angle) from each point to the center is calculated.
+4. Since the SO2 deposition formulae calculate only the downwind distance of SO2, we approximate the relative wind speed to the center for every point using the wind angle θ.
+5. Average SO2 deposition is calculated for every point using SO2 emission rate, distance from the center, relative wind speed, cloudiness factor, and smokestack height.
+6. Then an averaged heatmap is drawn.
 
-### VS Code
-* To compile and host run the `npm: start` task
-* To build run `npm: build`
-* Launch chrome debugging with `F5`
+### Performance
 
-## Structure
+15000 points * 1 frame -> ~4.5ms calculation time
+15000 points * 366 frames (days) -> ~3.15s calculation time
+
+### File structure
 
 * dist
-  * **index.html** - pretty self-explanatory lol
+  * **index.html** - Site markup
 
 * src
   * css
-    * **style.css** - still self-explanatory
+    * **style.css** - Site stylesheet
 
   * js
     * **index.js** - Main code for initialization and including external files like stylesheets
@@ -32,8 +41,6 @@ Compile and host live server on `localhost:8080` with `npm start`. This will run
     * **func.js** - Misc functions
   * wasm
     * **calc.c** - SO2 deposition simulation and map math
-
-**Structure is subject to change**
 
 ## Styleguide
 
