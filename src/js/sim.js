@@ -39,7 +39,7 @@ export class SOSimulation{
 			lowerBound: 0.01,
 			upperBound: Infinity,
 			reuseMemory: true,
-			windSpeedLowerBound: 0.4,
+			windSpeedLowerBound: 0.3,
 			gridPrecision: 1,
 			gridLatRange: [55, 59],
 			gridLngRange: [21, 28],
@@ -237,6 +237,17 @@ export class SOSimulation{
 
 		for(let f = 0; f < options.frames; f++){
 			const frameData = [];
+			const frameGrid = []; // value = accGrid[lngIndex][latIndex]
+
+			for(let lng = 0; lng < this.accGridSize[0]; lng++){
+				const col = [];
+
+				for(let lat = 0; lat < this.accGridSize[1]; lat++){
+					col.push([0,0]);
+				}
+
+				frameGrid.push(col);
+			}
 
 			for(let i = 0; i < this.options.pointCount; i++){
 				let el = [];
@@ -250,17 +261,20 @@ export class SOSimulation{
 
 					if(el[2] > this.max) this.max = el[2];
 					if(options.accumulate){
-						const p = 10 ** this.options.gridPrecision;
-						const lng = Math.round((el[1] - this.options.gridLngRange[0]) * p);
-
-						if(lng < 0 || lng > this.accGridSize[0]) continue;
-
-						const lat = Math.round((el[0] - this.options.gridLatRange[0]) * p);
-
-						if(lat < 0 || lat > this.accGridSize[1]) continue;
+						const index = this.coordinatesToGridIndex(el);
+						if(!index) continue;
 						
-						this.accGrid[lng][lat]+=el[2];
+						frameGrid[index[0]][index[1]][0] += el[2];
+						frameGrid[index[0]][index[1]][1] += 1;
 					}
+				}
+			}
+
+			for(let lng = 0; lng < this.accGridSize[0]; lng++){
+				for(let lat = 0; lat < this.accGridSize[1]; lat++){
+					if(frameGrid[lng][lat] === 0) continue;
+
+					this.accGrid[lng][lat]+=frameGrid[lng][lat][0]; /// frameGrid[lng][lat][1]; // Add the average point value
 				}
 			}
 
@@ -319,5 +333,28 @@ export class SOSimulation{
 		}
 
 		return data;
+	}
+
+	coordinatesToGridIndex(coords){
+		const p = 10 ** this.options.gridPrecision;
+		const lng = Math.round((coords[1] - this.options.gridLngRange[0]) * p);
+
+		if(lng < 0 || lng > this.accGridSize[0]) return;
+
+		const lat = Math.round((coords[0] - this.options.gridLatRange[0]) * p);
+
+		if(lat < 0 || lat > this.accGridSize[1]) return;
+
+		return [lng, lat];
+	}
+
+	getValueAtCoords(coords, curFrame = -1){
+		const index = this.coordinatesToGridIndex(coords);
+		if(!index) return 0;
+		if(curFrame === -1){
+			return this.accGrid[index[0]][index[1]];
+		}
+		
+		return this.accGridHistory[curFrame][index[0]][index[1]];
 	}
 }

@@ -29,9 +29,10 @@ body{
 #about:focus ~ #aboutName{
 	right: 0;
 }
+
 #right{
 	width: 21.4vw;
-	height: 100vh;
+	height: 90vh;
 	overflow: hidden;
 	position: absolute;
 	right: 0;
@@ -40,7 +41,7 @@ body{
 #aboutText{
 	position: absolute;
 	width: 20vw;
-	height: 90vh;
+	height: 100vh;
 	background-color: rgba(122, 255, 188, 0.75);
 	right: -21.4vw;
 	font-family: 'Open Sans';

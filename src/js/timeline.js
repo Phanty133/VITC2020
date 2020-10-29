@@ -21,7 +21,9 @@ export class Timeline{
 			displayAccumulate: false,
 			framesPerDay: 1,
 			dateElID: "dateDisplay",
-			date0: new Date(2019, 0, 1)
+			date0: new Date(2019, 0, 1),
+			wind: false,
+			showTooltips: true
 		});
 
 		if(!this.options.sim || !this.options.map){
@@ -43,10 +45,10 @@ export class Timeline{
 		});
 
 		this.defaultInputVal = defaultArgs(defaultInputVal, { // [Value when accumulate = false, Value when accumulate = true]
-			resolution: [10000, 5000],
+			resolution: [10000, 2500],
 			scrubbing: [0, 0],
 			cloudiness: [0.5, 0.5],
-			maxValue: [0.5, 60]
+			maxValue: [0.5, 7]
 		});
 
 		this.frameOptions = {};
@@ -62,6 +64,9 @@ export class Timeline{
 		this.dateEl = document.getElementById(this.options.dateElID);
 		this.curDate = this.options.date0;
 		this.done = false;
+		this.windCounter = 5;
+
+		this.map.map.on("click", (e) => {this.mapClickHandler(e);});
 	}
 
 	precalculateFrames(){
@@ -86,6 +91,7 @@ export class Timeline{
 			displayAccumulate: this.options.displayAccumulate
 		});
 
+		console.log(this.frameOptions);
 		loading(true);
 
 		setTimeout(() => {
@@ -105,14 +111,16 @@ export class Timeline{
 			blur: this.options.blur
 		};
 
-		console.log(this.frameOptions);
-		console.log(this.curFrame);
-
 		if(this.frameOptions.displayAccumulate){
 			this.map.drawData(this.sim.accGridToCoordinates(++this.curFrame), options);
 		}
 		else{
 			this.map.drawData(this.frameData[++this.curFrame], options);
+		}
+
+		if(this.options.wind && ++this.windCounter === 6){
+			this.windCounter = 0;
+			this.map.updateWindMap(this.sim.options.windSpeed[this.curFrame], this.sim.options.windAngle[this.curFrame]);
 		}
 	}
 
@@ -123,6 +131,7 @@ export class Timeline{
 			return;
 		}
 
+		console.log("upd");
 		this.drawNextFrame();
 
 		const date = this.curDate.getDate().toString();
@@ -155,6 +164,11 @@ export class Timeline{
 		this.curFrame = -1;
 		this.map.clearMap();
 		this.pause(false);
+		this.curDate = this.options.date0;
+
+		const playBtn = document.getElementById("playToggle");
+		playBtn.src = "./images/play_toggle.png";
+		playBtn.setAttribute("clicked", "0");
 	}
 
 	recalculateRemainingFrames(){
@@ -219,5 +233,21 @@ export class Timeline{
 	redrawCurrentFrame(){
 		this.curFrame = this.done ? this.options.frameCount - 2 : this.curFrame - 1;
 		this.drawNextFrame();
+	}
+
+	showWind(state = true){
+		this.options.wind = state;
+
+		if(!state){
+			this.map.windData[0].data = [];
+			this.map.windData[1].data = [];
+		}
+	}
+
+	mapClickHandler(e){
+		if(!this.options.showTooltips || this.curFrame === -1) return;
+
+		const val = Math.round(this.sim.getValueAtCoords([e.latlng.lat, e.latlng.lng], this.curFrame));
+		this.map.showTooltipAtCoords(e.latlng, `Total: ${val} kg SO<sub>2</sub>/m<sup>2</sup>`);
 	}
 }
