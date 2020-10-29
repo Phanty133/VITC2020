@@ -1,7 +1,5 @@
 # VITC2020
-After 8 years of procrastination, hopefully it will have been worth the weight.
-
-Outline: [Google Docs](https://docs.google.com/document/d/1dEdyyxbawSNikHp6Vdax3v1C00PjcRTb6qxdRN5s1QM/edit?usp=sharing)
+After 3 weeks of procrastination, hopefully it will have been worth the 3 day code sprint.
 
 ## Installation
 
@@ -30,7 +28,8 @@ Compile and host live server on `localhost:8080` with `npm start`. This will run
     * **map.js** - Code for configuring and rendering the map
     * **sim.js** - Code for the simulation itself (Mainly point calculations)
     * **ui.js** - User interface code for the simulation
-    * **page.js** - Misc code for the webpage (nothing related to the simulation)
+    * **timeline.js** - Simulation control code
+    * **func.js** - Misc functions
   * wasm
     * **calc.c** - SO2 deposition simulation and map math
 
@@ -48,11 +47,6 @@ Compile and host live server on `localhost:8080` with `npm start`. This will run
 * Don't fucking ever use `var`.
 * Use ES6.
 * Use ES2015 module syntax `import` and `export` for js, css and fonts.
-
-### HTML
-* Use XHTML 
-  * Tags that don't have a closing tag like `<br>` are closed with a slash e.g. `<br/>` or `<input ... />`
-  * Attributes that don't need an explicit value like `disabled` should have its value set as the attribute name e.g. `<element disabled="disabled">``
 
 ### CSS
 * use your best judgement lol
