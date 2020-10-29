@@ -1,10 +1,6 @@
 # VITC2020
 After 3 weeks of procrastination, hopefully it will have been worth the 3 day code sprint.
 
-## JUST THE SIMULATION - FOR THE VITC2020 JUDGES
-
-Run /dist/index.html
-
 ## Installation
 
 Download packages: `npm i`
